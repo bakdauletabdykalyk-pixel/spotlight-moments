@@ -97,11 +97,12 @@ function Concept() {
 function OccasionSelector() {
   const [active, setActive] = useState(0);
   const images = [heroImage, birthdayImage, conceptImage, birthdayImage, heroImage, ceremonyImage];
+  const activeOccasion = occasions.at(active);
   return <section className="border-y border-border bg-card" aria-labelledby="occasion-title">
     <div className="mx-auto max-w-[1440px] px-5 py-28 lg:px-10 lg:py-36"><Eyebrow>CHOOSE THE OCCASION</Eyebrow><div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><h2 id="occasion-title" className="text-4xl font-light md:text-6xl">Какой сегодня повод?</h2><p className="max-w-md text-sm leading-6 text-muted-foreground">Выберите сценарий — ресторан создаст атмосферу вокруг вашего момента.</p></div>
       <div className="mt-14 grid gap-px bg-border lg:grid-cols-[.85fr_1.15fr]">
         <div className="grid bg-card sm:grid-cols-2">{occasions.map(([title,desc],i) => <button key={title} onClick={() => setActive(i)} onMouseEnter={() => setActive(i)} className={`min-h-48 border-b border-r border-border p-6 text-left transition-colors duration-500 ${active === i ? "bg-primary text-primary-foreground" : "bg-card hover:bg-accent"}`}><span className="text-[10px] opacity-60">0{i+1}</span><h3 className="mt-8 text-lg font-normal">{title}</h3><p className="mt-3 text-xs leading-5 opacity-65">{desc}</p></button>)}</div>
-        <div className="relative min-h-[480px] overflow-hidden bg-background">{images.map((image,i) => <img key={`${image}-${i}`} src={image} width={1600} height={1104} loading="lazy" alt="" className={`absolute inset-0 size-full object-cover transition-all duration-1000 ${active === i ? "scale-100 opacity-100" : "scale-105 opacity-0"}`} />)}<div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"/><div className="absolute bottom-7 left-7"><span className="text-[10px] tracking-[.25em] text-primary">ACTIVE SCENE</span><p className="mt-2 text-2xl font-light">{occasions[active][0]}</p></div></div>
+        <div className="relative min-h-[480px] overflow-hidden bg-background">{images.map((image,i) => <img key={`${image}-${i}`} src={image} width={1600} height={1104} loading="lazy" alt="" className={`absolute inset-0 size-full object-cover transition-all duration-1000 ${active === i ? "scale-100 opacity-100" : "scale-105 opacity-0"}`} />)}<div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"/><div className="absolute bottom-7 left-7"><span className="text-[10px] tracking-[.25em] text-primary">ACTIVE SCENE</span><p className="mt-2 text-2xl font-light">{activeOccasion?.[0] ?? "Выбранный сценарий"}</p></div></div>
       </div>
     </div>
   </section>;
@@ -113,7 +114,8 @@ function HowItWorks() {
 }
 
 function ScenarioSelector() {
-  const [active, setActive] = useState(0); const item = scenarios[active];
+  const [active, setActive] = useState(0); const item = scenarios.at(active);
+  if (!item) return null;
   return <section id="scenarios" className="relative min-h-[86svh] overflow-hidden border-y border-border">
     {scenarios.map((s,i) => <img key={s.label} src={s.image} width={1600} height={1104} loading="lazy" alt="" className={`absolute inset-0 size-full object-cover transition-all duration-1000 ${active === i ? "scale-100 opacity-100" : "scale-105 opacity-0"}`} />)}
     <div className="absolute inset-0 bg-gradient-to-r from-background via-background/65 to-background/15"/>
